@@ -3,6 +3,7 @@ from os import name, system, getenv
 import socket, os
 from time import sleep
 from usefull import *
+from server import *
 from optparse import OptionParser
 ## set the clear command by os name
 windows = False
@@ -37,7 +38,13 @@ def server():
         pass
     reset
     print(f"{ok}Port is set on \"{port}\"")
-    
+    print(f"{info}Enter the host:")
+    host = int(input(f"{magenta}>{cyan}"))
+    if len(host) == 0:
+        print(f"{info}Default host is localhost (0.0.0.0)")
+        Server.start(port)
+    else:
+        Server.start(port,host)
 def build():
     if windows:
         

