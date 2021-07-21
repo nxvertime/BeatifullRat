@@ -51,14 +51,14 @@ def server():
 
     print(f"{ok}Port is set on \"{port}\"")
     print(f"{info}Enter the host:")
-    host = int(input(f"{magenta}>{cyan}"))
-
+    host = str(input(f"{magenta}>{cyan}"))
+    print(f"{ok}Host is set on \"{host}\"")
 
     if len(host) == 0:
-        print(f"{info}Default host is localhost (0.0.0.0)")
+        print(f"{info}Default host is localhost ")
         Server.start(port)
     else:
-        Server.start(port,host)
+        Server.start(int(port),host)
 
 
 
@@ -137,15 +137,17 @@ def main():
 
         if mode == 1:
             build()
+            exit()
         elif mode == 2:
             server()
+            exit()
         else:
             print(f"{error}Bad answer :/")
             sleep(3)
 
     except ValueError as e:
         print(f"{error}{e}")
-        sleep(3)
+        sleep(10)
     reset
 
 while True:

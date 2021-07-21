@@ -2,6 +2,7 @@ import socket, os
 from colorama import *
 from time import sleep
 from os import system, getenv, name
+from usefull import *
 ## set the clear command by os name
 windows = False
 if name == 'nt': ## windows
@@ -18,41 +19,6 @@ else: ## linux distrib.
 ## init colorama to dodge the problems
 init()
 
-## set colors more simple :)
-
-red = Fore.RED
-lightRed = Fore.LIGHTRED_EX
-
-blue = Fore.BLUE
-lightBlue = Fore.LIGHTBLUE_EX
-
-green = Fore.GREEN
-lightGreen = Fore.LIGHTGREEN_EX
-
-yellow = Fore.YELLOW
-lightYellow = Fore.LIGHTYELLOW_EX
-
-magenta = Fore.MAGENTA
-lightMagenta = Fore.LIGHTMAGENTA_EX
-
-cyan = Fore.CYAN
-lightCyan = Fore.LIGHTCYAN_EX
-
-white = Fore.RESET
-
-black = Fore.BLACK
-
-reset = Fore.RESET
-
-## set usefull vars
-
-attention = f'{reset}[{yellow}!{reset}] '
-info = f'{reset}[{cyan}*{reset}] '
-ok = f'{reset}[{lightGreen}ok{reset}] '
-success = f'{reset}[{green}v{reset}] '
-error = f'{reset}[{yellow}!{reset}] '
-question = f'{reset}[{lightGreen}?{reset}] '
-
 class Server:
     def start(self, port, SERVER_HOST="0.0.0.0"):
 
@@ -62,7 +28,7 @@ class Server:
         SEPARATOR = "<sep>"
 
         s = socket.socket()
-        s.bind((SERVER_HOST, port))
+        s.bind((SERVER_HOST, int(port)))
         s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         s.listen(5)
         print(f"{success}Listening  on  {magenta}{SERVER_HOST}:{port}{reset}")

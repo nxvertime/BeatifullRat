@@ -1,6 +1,6 @@
 import socket, os, sys, subprocess
 
-sHost = "0.0.0.0"
+sHost = "localhost"
 sPort = 4444
 bufferSize = 1024 * 128
 separator = "<sep>"
