@@ -1,4 +1,4 @@
-# BeatifullRat.py
+# BeatifullRat
 
 
 This is one of my projects, as you can see, it is in development.
